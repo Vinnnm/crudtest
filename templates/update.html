@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pathName = window.location.pathname;
+            const parts = pathName.split('/');
+            const postId = parts[parts.length - 1];
+
+            const fetchPostData = async () => {
+                try {
+                    const response = await fetch('/api/posts/' + postId);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch post data: ' + response.statusText);
+                    }
+                    const postData = await response.json();
+                    return postData.post;
+                } catch (error) {
+                    console.error(error.message);
+                    alert('Failed to fetch post data: ' + error.message);
+                }
+            };
+
+            const populateFormFields = (postData) => {
+                if (postData) {
+                    $('#title').val(postData.Title);
+                    $('#body').val(postData.Body);
+                } else {
+                    alert('Failed to fetch post data. Please try again.');
+                }
+            };
+
+            $('#updateForm').submit(async function(event) {
+                event.preventDefault();
+                const title = $('#title').val();
+                const body = $('#body').val();
+                const data = JSON.stringify({ Title: title, Body: body });
+                try {
+                    const response = await fetch('/api/posts/' + postId, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: data
+                    });
+                    if (!response.ok) {
+                        throw new Error('Failed to update post: ' + response.statusText);
+                    }
+                    Swal.fire({
+                        title: 'Good job!',
+                        text: 'Post updated Successfully!',
+                        icon: 'success',
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onClose: () => {
+                            window.location.href = '/';
+                        }
+                    });
+                } catch (error) {
+                    console.error(error.message);
+                    alert('Failed to update post: ' + error.message);
+                }
+            });
+
+            fetchPostData().then(populateFormFields);
+        });
+    </script>
+</head>
+<body>
+    <div style="display: flex; align-items: center; justify-content: center; height: 90vh;">
+        <div class="w-full max-w-xs">
+            <form class="bg-slate-800 shadow-md rounded px-8 pt-6 pb-8 mb-4" id="updateForm">
+                <h2 class="text-2xl text-center text-gray-200 mb-4">Update Post</h2>
+                <div class="mb-4">
+                    <label class="block text-gray-200 text-sm font-bold mb-2" for="title">
+                        Title
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="title" id="title" type="text" placeholder="Post Title">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-200 text-sm font-bold mb-2" for="body">
+                        Body
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="body" id="body" type="text" placeholder="Post Body">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button id="editButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        Update
+                    </button>
+                </div>
+            </form>
+            <p class="text-center text-gray-500 text-xs">
+              &copy;2024 Vinn. All rights reserved.
+            </p>
+        </div>
+    </div>    
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body>
+    <div style="display: flex; align-items: center; justify-content: center; height: 90vh;">
+        <div class="w-full max-w-xs">
+            <form class="bg-slate-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <h2 class="text-2xl text-center text-gray-200 mb-4">Add New Post</h2>
+                <div class="mb-4">
+                    <label class="block text-gray-200 text-sm font-bold mb-2" for="title">
+                        Title
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="title" id="title" type="text" placeholder="Post Title">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-200 text-sm font-bold mb-2" for="body">
+                        Body
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="body" id="body" type="text" placeholder="Post Body">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button id="submitButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        Add
+                    </button>
+                </div>
+            </form>
+            <p class="text-center text-gray-500 text-xs">
+              &copy;2024 Vinn. All rights reserved.
+            </p>
+        </div>
+    </div>
+    <script src="/static/js/scripts.js"></script>
+</body>
+</html>
